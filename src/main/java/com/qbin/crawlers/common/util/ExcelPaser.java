@@ -7,6 +7,7 @@ import org.apache.poi.ss.usermodel.Cell;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -14,42 +15,16 @@ import java.util.*;
  * 描述：Excel解析工具
  * author qiaobin   2016/10/14 10:33.
  */
-public class ExcelPaser {
-    private POIFSFileSystem fs;
-    private HSSFWorkbook wb;
-    private HSSFSheet sheet;
-    private HSSFRow row;
-
-    /**
-     * 读取Excel表格表头的内容
-     * @param is
-     * @return String 表头内容的数组
-     */
-    public String[] readExcelTitle(FileInputStream is) {
-        try {
-            wb = new HSSFWorkbook(is);
-            sheet = wb.getSheetAt(0);
-            row = sheet.getRow(0);
-            // 标题总列数
-            int colNum = row.getPhysicalNumberOfCells();
-            System.out.println("colNum:" + colNum);
-            String[] title = new String[colNum];
-            for (int i = 0; i < colNum; i++) {
-                title[i] = getCellFormatValue(row.getCell((short) i));
-            }
-            return title;
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
+public final class ExcelPaser {
 
     /**
      * 读取Excel数据内容
      * @param is
      * @return Map 包含单元格数据内容的Map对象
      */
-    public List<Map<String, String>> readExcelContent(FileInputStream is) {
+    public static List<Map<String, String>> readExcelContent(InputStream is) {
+        HSSFSheet sheet;
+        HSSFRow row;
         List<Map<String, String>> list = null;
         try {
             list = new ArrayList<>();

@@ -13,7 +13,9 @@ import org.springframework.web.multipart.MultipartFile;
  * 描述：淘客助手文件解析
  * author qiaobin   2016/10/15 12:00.
  */
-@RestController("tkzs")
+@RestController
+@RequestMapping("tkzs")
+
 public class TKZSGoodsController {
     @Autowired
     private TKZSGoodsService tkzsGoodsService;
@@ -23,10 +25,19 @@ public class TKZSGoodsController {
      * */
     @RequestMapping(value = "/excelparser", method = RequestMethod.POST)
     public String uploadPicture(@RequestParam("file") MultipartFile file){
-        String root = ApplicationUtil.getRootPath();
-        String path = root + "/upload/image/" + file.getOriginalFilename();
         try {
-            return null;
+            return tkzsGoodsService.importGoodsExcel(file.getInputStream());
+        } catch (Exception e) {
+            return String.format("图片上传失败：%s", e.getMessage());
+        }
+    }
+    /**
+     *   Excel文件上传
+     * */
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
+    public String aa(){
+        try {
+           return "aa";
         } catch (Exception e) {
             return String.format("图片上传失败：%s", e.getMessage());
         }

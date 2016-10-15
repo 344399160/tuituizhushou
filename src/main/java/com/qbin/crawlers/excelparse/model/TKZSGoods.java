@@ -4,10 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * 描述：淘客助手实体
@@ -28,6 +25,7 @@ public class TKZSGoods {
     @Column(name="`GOODSPICTURE`")
     private String goodsPicture;
 
+    @Lob
     @Column(name="`GOODSURL`")
     private String goodsUrl;
 
@@ -49,6 +47,7 @@ public class TKZSGoods {
     @Column(name="`WANGWANG`")
     private String wangwang;
 
+    @Lob
     @Column(name="`TBKURL`")
     private String tbkUrl;
 
@@ -67,6 +66,7 @@ public class TKZSGoods {
     @Column(name="`COUPONENDTIME`")
     private String couponEndTime;
 
+    @Lob
     @Column(name="`COUPONURL`")
     private String couponUrl;
 
