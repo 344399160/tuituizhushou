@@ -1,5 +1,6 @@
 package com.qbin.crawlers.common.util;
 
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.qbin.crawlers.common.globalconst.WeiXinConst;
 import com.qbin.crawlers.tuitui.model.WeiXinInfo;
@@ -44,7 +45,8 @@ public final class WeiXinUtil {
       * @param content 内容
       * @param info 用户登录信息
       */
-    public static boolean sendMsg(String toName, String content, WeiXinInfo info){
+    public static String sendMsg(String toName, String content, WeiXinInfo info){
+        System.setProperty("jsse.enableSNIExtension", "false");
         String url = WeiXinConst.url_sendMsg.replace("{t}", info.getPass_ticket());
         JSONObject post = new JSONObject();
         JSONObject BaseRequest = new JSONObject();
@@ -67,14 +69,48 @@ public final class WeiXinUtil {
         if(result != null){
             JSONObject r =   JSONObject.parseObject(result);
             if(r.getJSONObject("BaseResponse").getInteger("Ret") == 0){
-                System.out.println("success");
-                return true;
+                return "发送成功";
             }else{
-                System.out.println("fail");
+                return "发送失败";
             }
         }else{
             //多次测试此时是发送成功的
+            return "发送成功";
         }
-        return false;
+    }
+
+    /**
+     * 功能描述：获取同步KEY
+     * @author qiaobin
+     * @date 2016/10/18  16:25
+     * @param json
+     */
+    public static String getSyncKey(JSONObject json){
+        JSONObject SyncKey = json.getJSONObject("SyncKey");
+        JSONArray Listarr = SyncKey.getJSONArray("List");
+        String synckey = "";
+        for(int i = 0;i<Listarr.size(); i++){
+            JSONObject jj = Listarr.getJSONObject(i);
+            synckey = synckey + jj.get("Key")+"_"+jj.get("Val")+"|"  ;
+        }
+        synckey = synckey.substring(0, synckey.length() - 2);
+        return synckey;
+    }
+
+    /**
+      * 功能描述：拼COOKIE
+      * @author qiaobin
+      * @date 2016/10/18  16:25
+      * @param info
+      */
+    public static String getPostString(WeiXinInfo info) {
+        JSONObject post = new JSONObject();
+        JSONObject BaseRequest = new JSONObject();
+        post.put("BaseRequest", BaseRequest);
+        BaseRequest.put("Uin", info.getWxuin());
+        BaseRequest.put("Sid", info.getWxsid());
+        BaseRequest.put("Skey", info.getSKey());
+        BaseRequest.put("DeviceID", info.getDeviceid());
+        return post.toString();
     }
 }

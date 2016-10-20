@@ -1,5 +1,6 @@
 package com.qbin.crawlers.common.util;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.Consts;
 import org.apache.http.HttpEntity;
 import org.apache.http.NameValuePair;
@@ -146,9 +147,12 @@ public class Utils {
   //http post
       public static String postString(String url, String str){
           try {
-              StringEntity sentity = new StringEntity(str, Consts.UTF_8);
+              System.setProperty ("jsse.enableSNIExtension", "false");
               HttpPost post = new HttpPost(url);
-              post.setEntity(sentity);
+              if (StringUtils.isNotEmpty(str)) {
+                  StringEntity sentity = new StringEntity(str, Consts.UTF_8);
+                  post.setEntity(sentity);
+              }
 
               CloseableHttpClient httpclient = HttpClients.createDefault();
               CloseableHttpResponse response = httpclient.execute(post, context);

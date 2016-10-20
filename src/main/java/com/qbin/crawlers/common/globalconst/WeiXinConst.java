@@ -14,7 +14,9 @@ public final class WeiXinConst {
     //初始化
     public final static String url_init = "https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxinit?r={t}";
     //联系人
-    public final static String url_contactlist = "https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxgetcontact?r={t}";
+    public final static String url_contactlist = "https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxgetcontact?pass_ticket={ticket}&r={t}";
+    //群
+    public final static String url_qunlist = "https://wx.qq.com/cgi-bin/mmwebwx-bin/webwxbatchgetcontact?type=ex&r={t}&pass_ticket={ticket}";
 
     public final static String url_synccheck = "https://webpush.weixin.qq.com/cgi-bin/mmwebwx-bin/synccheck?callback=jQuery18309326978388708085_1377482079946&r={t}&sid={0}&uin={1}&deviceid={2}&synckey={3}&_={t}";
 

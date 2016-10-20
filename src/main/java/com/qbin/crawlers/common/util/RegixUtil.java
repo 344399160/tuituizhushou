@@ -1,12 +1,14 @@
 package com.qbin.crawlers.common.util;
 
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * 描述：过滤HTML标签
+ * 描述：过滤类
  * author qiaobin   2016/10/10 18:12.
  */
 public class RegixUtil {
+    //过滤HTML标签
     public static String Html2Text(String inputString) {
         String htmlStr = inputString;
         String textStr = "";
@@ -53,5 +55,15 @@ public class RegixUtil {
         }
 
         return textStr;// 返回文本字符串
+    }
+
+    //匹配方法
+    public static String match(String p, String str){
+        Pattern pattern = Pattern.compile(p);
+        Matcher m = pattern.matcher(str);
+        if(m.find()){
+            return m.group(1);
+        }
+        return null;
     }
 }

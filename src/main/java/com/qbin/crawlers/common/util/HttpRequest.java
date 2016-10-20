@@ -3,12 +3,14 @@ package com.qbin.crawlers.common.util;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.List;
@@ -82,9 +84,11 @@ public class HttpRequest {
         BufferedReader in = null;
         String result = "";
         try {
+            System.setProperty ("jsse.enableSNIExtension", "false");
             URL realUrl = new URL(url);
             // 打开和URL之间的连接
-            URLConnection conn = realUrl.openConnection();
+            HttpURLConnection conn = (HttpURLConnection) realUrl.openConnection();
+            conn.setRequestMethod("POST");
             // 设置通用的请求属性
             conn.setRequestProperty("accept", "*/*");
             conn.setRequestProperty("connection", "Keep-Alive");
@@ -153,5 +157,31 @@ public class HttpRequest {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static String getCookie(com.blade.kit.http.HttpRequest request) {
+        System.setProperty ("jsse.enableSNIExtension", "false");
+        HttpURLConnection conn = request.getConnection();
+        Map<String, List<String>> resHeaders = conn.getHeaderFields();
+        StringBuffer sBuffer = new StringBuffer();
+        for (Map.Entry<String, List<String>> entry : resHeaders.entrySet()) {
+            String name = entry.getKey();
+            if (name == null)
+                continue; // http/1.1 line
+            List<String> values = entry.getValue();
+            if (name.equalsIgnoreCase("Set-Cookie")) {
+                for (String value : values) {
+                    if (value == null) {
+                        continue;
+                    }
+                    String cookie = value.substring(0, value.indexOf(";") + 1);
+                    sBuffer.append(cookie);
+                }
+            }
+        }
+        if(sBuffer.length() > 0){
+            return sBuffer.toString();
+        }
+        return sBuffer.toString();
     }
 }

@@ -9,16 +9,22 @@ import lombok.Data;
  */
 @Data
 public class WeiXinInfo {
-    String wxuin;
-    String wxsid;
-    String webwxuvid;
-    String deviceid;
-    String syncKeyStr;
-    JSONObject SyncKey;
-    String SKey;
-    JSONObject ujson;
-    String name;   //帐号
-    String nickName;//昵称
-    boolean connect = false;
-    String pass_ticket;
+    private String wxuin;
+    private String wxsid;
+    private String webwxuvid;
+    private String deviceid;
+    private String syncKeyStr;
+    private JSONObject SyncKey;
+    private String SKey;
+    private JSONObject ujson;
+    private String name;   //帐号
+    private String nickName;//昵称
+    private boolean connect = false;
+    private String pass_ticket;
+    private String cookie;
+
+
+    private String uuid;
+    private String QRCodeUrl;  //二维码下载地址
+    private String initContent;
 }

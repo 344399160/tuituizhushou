@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <!--<include resource="org/springframework/boot/logging/logback/base.xml" />
-    <property name="LOG_FILE" value="log/bi.log"/>
-    <include resource="org/springframework/boot/logging/logback/file-appender.xml"/>-->
-
     <appender name="File-Appender"
               class="ch.qos.logback.core.rolling.RollingFileAppender">
         <Prudent>true</Prudent>
@@ -29,7 +25,7 @@
         </layout>
     </appender>
 
-    <root level="ERROR">
+    <root level="INFO">
         <appender-ref ref="File-Appender" />
         <appender-ref ref="Console-Appender" />
     </root>
